@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "droppopup",
+  "version": "${version}",
+  "name": "Drop Popup",
+  "description": "Viser et stort, roterende 3D-item midt på skjermen når du får et sjeldent drop i Hypixel Skyblock.",
+  "authors": ["Isak"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "no.isak.droppopup.DropPopup"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "fabric-api": "*",
+    "minecraft": "~26.1.2",
+    "java": ">=25"
+  }
+}
