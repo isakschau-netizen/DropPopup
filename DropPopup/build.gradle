@@ -37,6 +37,9 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_25
-	targetCompatibility = JavaVersion.VERSION_25
+	// Toolchain, ikke source/targetCompatibility: Gradle finner en Java 25 du
+	// allerede har, eller laster den ned (foojay-resolver i settings.gradle).
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
 }

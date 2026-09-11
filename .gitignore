@@ -24,3 +24,6 @@ Thumbs.db
 
 # Duplicate snapshot of DropPopup/ sources, kept locally only
 /Source code/
+
+# Per-machine config, never committed
+local.properties
