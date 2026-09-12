@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "Drop Popup",
   "description": "Viser et stort, roterende 3D-item midt på skjermen når du får et sjeldent drop i Hypixel Skyblock.",
-  "authors": ["Isak"],
+  "authors": ["LembarYT"],
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
