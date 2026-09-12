@@ -2,6 +2,7 @@ package no.isak.droppopup;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.regex.Pattern;
 import java.util.Map;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,6 +37,9 @@ public final class ItemLookup {
             "festive", "bustling", "hyper", "coldfused", "dimensional", "chomp",
     };
 
+    /** Hale som "(Sharpness VI)" - fortryllelsen, ikke selve itemet. */
+    private static final Pattern PARENTHETICAL = Pattern.compile("\\s*\\([^()]*\\)\\s*$");
+
     /** Bygges en gang: vanilla visningsnavn (lowercase) -> item. */
     private static Map<String, Item> byName;
 
@@ -58,9 +62,9 @@ public final class ItemLookup {
         return byName;
     }
 
-    public static ItemStack resolve(String skyblockName) {
-        String name = skyblockName.toLowerCase(Locale.ROOT).trim();
 
+    /** Alle oppslagsveiene for ett navn. Null hvis ingen av dem traff. */
+    private static ItemStack find(String name) {
         // Config-fila vinner, sa du kan overstyre repoet hvis du vil.
         Item override = ItemConfig.overrides().get(name);
         if (override != null) {
@@ -96,6 +100,26 @@ public final class ItemLookup {
             Item hit = map.get(String.join(" ", java.util.Arrays.copyOfRange(words, from, words.length)));
             if (hit != null) {
                 return log(name, new ItemStack(hit), "tail words");
+            }
+        }
+        return null;
+    }
+
+    public static ItemStack resolve(String skyblockName) {
+        String name = skyblockName.toLowerCase(Locale.ROOT).trim();
+
+        ItemStack hit = find(name);
+        if (hit != null) {
+            return hit;
+        }
+
+        // "enchanted book (sharpness vi)" finnes ikke noe sted, men "enchanted
+        // book" gjor det. Parentesen er fortryllelsen, ikke itemet.
+        String base = PARENTHETICAL.matcher(name).replaceAll("").trim();
+        if (!base.isEmpty() && !base.equals(name)) {
+            hit = find(base);
+            if (hit != null) {
+                return hit;
             }
         }
 

@@ -71,7 +71,7 @@ public final class Whitelist {
             // Diverse storfangst
             "Grand Searing Rune", "Chili Pepper", "Exp Share Core", "Quick Claw",
             "Subzero Inverter", "Sorrow", "Chamber Silk", "Plasma Core", "Grizzly Bait",
-            "Red Nose", "Precursor Relic", "Sadan's Brooch", "Lasr's Eye", "Diamante's Handle",
+            "Red Nose", "Precursor Relic", "Sadan's Brooch", "L.A.S.R.'s Eye", "Diamante's Handle",
             "Bigfoot's Foot", "Midas Staff", "Inquisition Artifact", "Wheel of Fate",
             "Artifact of Power", "Exceedingly Rare Ender Artifact Upgrade",
             "Sliver of Alacrity", "Siren Tear", "Volcanic Stone", "Ender Monocle",

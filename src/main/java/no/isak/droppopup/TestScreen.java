@@ -41,7 +41,7 @@ public final class TestScreen extends Screen {
                     "RARE DROP! Enchanted Book (First Strike V)" + MF),
             // Apostrofer.
             new Case("Sadan's Brooch", "apostrof", "RARE DROP! Sadan's Brooch" + MF),
-            new Case("Lasr's Eye", "apostrof", "RARE DROP! Lasr's Eye" + MF),
+            new Case("L.A.S.R.'s Eye", "punktum i navnet", "RARE DROP! L.A.S.R.'s Eye" + MF),
             new Case("Diamante's Handle", "apostrof", "RARE DROP! Diamante's Handle" + MF),
             new Case("Bigfoot's Foot", "apostrof", "RARE DROP! Bigfoot's Foot" + MF),
             // Kjaeledyr: "[Lvl N]" strippes, og Hypixel sier ikke "Pet".
@@ -110,7 +110,12 @@ public final class TestScreen extends Screen {
     /** Kjorer en enkelt test og viser popupen, slik et ekte drop ville gjort. */
     private void run(Case c) {
         this.onClose();
-        say(verdict(c, true));
+        DropMatcher.DropEvent event = parse(c);
+        Result result = resultFor(event);
+        if (result == Result.FALLBACK_MODEL || result == Result.OK) {
+            PopupOverlay.show(event);
+        }
+        say(message(c, event, result));
     }
 
     /**
@@ -122,35 +127,31 @@ public final class TestScreen extends Screen {
         say(Component.literal("§b[DropPopup] tester " + CASES.length + " oppforinger"));
         int ok = 0;
         for (Case c : CASES) {
-            if (check(c) == Result.OK) {
+            DropMatcher.DropEvent event = parse(c);
+            Result result = resultFor(event);
+            if (result == Result.OK) {
                 ok++;
             }
-            say(verdict(c, false));
+            say(message(c, event, result));
         }
         say(Component.literal("§b[DropPopup] " + ok + " av " + CASES.length + " gikk gjennom"));
     }
 
     private enum Result { PARSE_FAILED, MUTED, FALLBACK_MODEL, OK }
 
-    private static Result check(Case c) {
-        DropMatcher.DropEvent event = parse(c);
+    private static Result resultFor(DropMatcher.DropEvent event) {
         if (event == null) {
             return Result.PARSE_FAILED;
         }
         if (!PopupOverlay.wouldShow(event)) {
             return Result.MUTED;
         }
-        ItemStack stack = ItemLookup.resolve(event.item());
         // Nether Star er fallbacken. Da vises popupen, men med feil modell.
-        return stack.is(Items.NETHER_STAR) ? Result.FALLBACK_MODEL : Result.OK;
+        return ItemLookup.resolve(event.item()).is(Items.NETHER_STAR)
+                ? Result.FALLBACK_MODEL : Result.OK;
     }
 
-    private static Component verdict(Case c, boolean alsoShow) {
-        DropMatcher.DropEvent event = parse(c);
-        Result result = check(c);
-        if (alsoShow && event != null && PopupOverlay.wouldShow(event)) {
-            PopupOverlay.show(event);
-        }
+    private static Component message(Case c, DropMatcher.DropEvent event, Result result) {
         String name = event == null ? c.label() : event.item();
         return switch (result) {
             case PARSE_FAILED -> Component.literal(
@@ -169,7 +170,13 @@ public final class TestScreen extends Screen {
         return DropMatcher.match(c.chat(), self);
     }
 
+    /**
+     * Skriver bade i chatten og i loggen. Chat lagt til klientsiden havner
+     * ikke i latest.log av seg selv, og da er resultatet borte sa snart du
+     * lukker spillet.
+     */
     private static void say(Component message) {
         Minecraft.getInstance().gui.getChat().addClientSystemMessage(message);
+        DropPopup.LOGGER.info("[test] {}", message.getString().replaceAll("§.", ""));
     }
 }
