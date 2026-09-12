@@ -77,11 +77,23 @@ public final class PopupOverlay {
      */
     private static final java.util.EnumSet<Rarity> SKIPPED = java.util.EnumSet.of(Rarity.RARE);
 
+    /**
+     * Slipper dette dropet gjennom filteret? Tier alene holder ikke:
+     * "RARE DROP!" daekker bade Enchanted Spider Eye og Judgement Core,
+     * derfor slipper whitelist-items alltid gjennom.
+     *
+     * <p>Testskjermen bruker samme metode, sa den kan aldri komme til a si
+     * noe annet enn det som faktisk skjer.
+     */
+    public static boolean wouldShow(DropMatcher.DropEvent event) {
+        return !SKIPPED.contains(event.rarity()) || Whitelist.contains(event.item());
+    }
+
     /** Start en ny popup. Erstatter den som eventuelt vises. */
     public static void show(DropMatcher.DropEvent event) {
         // Tier alene holder ikke: "RARE DROP!" daekker bade Enchanted Spider Eye
         // og Judgement Core. Derfor slipper whitelist-items alltid gjennom.
-        if (SKIPPED.contains(event.rarity()) && !Whitelist.contains(event.item())) {
+        if (!wouldShow(event)) {
             DropPopup.LOGGER.info("Hopper over {} ({} er slatt av)", event.item(), event.rarity());
             return;
         }

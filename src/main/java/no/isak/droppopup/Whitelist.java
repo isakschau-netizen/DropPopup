@@ -56,7 +56,10 @@ public final class Whitelist {
             // Enchanted books
             "Enchanted Book (First Strike V)", "Enchanted Book (Giant Killer VI)",
             "Enchanted Book (Growth VI)", "Enchanted Book (Sharpness VI)",
-            "Enchanted Book (Snipe IV)", "Enchanted Book (Master Stars)",
+            "Enchanted Book (Snipe IV)",
+            // Master Stars er egne items, ikke boker
+            "First Master Star", "Second Master Star", "Third Master Star",
+            "Fourth Master Star", "Fifth Master Star",
             // Pets - parseren stripper "[Lvl N]", sa navnet star uten "Pet"
             "Phoenix", "Deep Sea Orca",
             // Dyer

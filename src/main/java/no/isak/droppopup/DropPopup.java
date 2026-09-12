@@ -32,6 +32,9 @@ public final class DropPopup implements ClientModInitializer {
     /** Trykk for a se en test-popup uten a mate pa drops. */
     private static KeyMapping testKey;
 
+    /** Apner testskjerma for whitelist-oppforinger. */
+    private static KeyMapping guiKey;
+
     /**
      * Test-drops, ett per trykk. Gar rundt i lokke sa du far sett alle
      * sjeldenhetene - farge, partikkelmengde og tekst er forskjellig.
@@ -68,6 +71,11 @@ public final class DropPopup implements ClientModInitializer {
                 new KeyMapping("key.droppopup.test", InputConstants.Type.KEYSYM,
                         GLFW.GLFW_KEY_LEFT_BRACKET, category));
 
+        // "ae" ligger der APOSTROPHE ligger pa et amerikansk tastatur.
+        guiKey = KeyMappingHelper.registerKeyMapping(
+                new KeyMapping("key.droppopup.gui", InputConstants.Type.KEYSYM,
+                        GLFW.GLFW_KEY_APOSTROPHE, category));
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             boolean pressed = false;
             while (testKey.consumeClick()) {
@@ -76,6 +84,14 @@ public final class DropPopup implements ClientModInitializer {
             if (pressed) {
                 PopupOverlay.show(SAMPLES[nextSample]);
                 nextSample = (nextSample + 1) % SAMPLES.length;
+            }
+
+            boolean openGui = false;
+            while (guiKey.consumeClick()) {
+                openGui = true;
+            }
+            if (openGui && client.screen == null) {
+                client.setScreen(new TestScreen());
             }
         });
 
