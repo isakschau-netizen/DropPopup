@@ -144,3 +144,7 @@ Constants at the top of `PopupOverlay.java`:
 | `FADE_IN` / `FADE_OUT` | Ease in/out timings |
 
 Particle counts and colours live in `Rarity.java`.
+
+## License
+
+MIT - see [LICENSE](../LICENSE).
