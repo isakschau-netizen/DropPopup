@@ -53,6 +53,26 @@ public final class Whitelist {
             "Necron's Handle", "Giant's Sword", "Wither Shield", "Shadow Warp",
             "Implosion", "Recombobulator 3000", "Divan's Alloy",
             "Fuming Potato Book", "Dark Claymore", "Precursor Eye",
+            // Enchanted books
+            "Enchanted Book (First Strike V)", "Enchanted Book (Giant Killer VI)",
+            "Enchanted Book (Growth VI)", "Enchanted Book (Sharpness VI)",
+            "Enchanted Book (Snipe IV)", "Enchanted Book (Master Stars)",
+            // Pets - parseren stripper "[Lvl N]", sa navnet star uten "Pet"
+            "Phoenix", "Deep Sea Orca",
+            // Dyer
+            "Jolly Pink Dye", "Wild Strawberry Dye", "Celestine Dye", "Cyclamen Dye",
+            "Necron Dye",
+            // Kuudra
+            "Kuudra Mandible", "Burning Kuudra Core", "Fiery Kuudra Core",
+            "Infernal Kuudra Core",
+            // Diverse storfangst
+            "Grand Searing Rune", "Chili Pepper", "Exp Share Core", "Quick Claw",
+            "Subzero Inverter", "Sorrow", "Chamber Silk", "Plasma Core", "Grizzly Bait",
+            "Red Nose", "Precursor Relic", "Sadan's Brooch", "Lasr's Eye", "Diamante's Handle",
+            "Bigfoot's Foot", "Midas Staff", "Inquisition Artifact", "Wheel of Fate",
+            "Artifact of Power", "Exceedingly Rare Ender Artifact Upgrade",
+            "Sliver of Alacrity", "Siren Tear", "Volcanic Stone", "Ender Monocle",
+            "Golden Plate", "Synthetic Core", "Lapis Crystal",
     };
 
     private static Set<String> loaded;
