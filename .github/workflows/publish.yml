@@ -1,0 +1,59 @@
+name: Publish
+
+# Pushing a version tag builds the mod and publishes it. Nothing happens on an
+# ordinary push to main - only tags that look like v1.2.3.
+on:
+  push:
+    tags:
+      - 'v*'
+  # Lets you run it by hand from the Actions tab, to try it without tagging.
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Build only, do not publish anywhere'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write # needed to create the GitHub release and attach the jar
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Fabric 26.1 needs Java 25. The toolchain block in build.gradle picks
+      # this one up, the same way it finds Prism's JDK locally.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build --no-daemon
+
+      # Fail loudly here rather than letting mc-publish upload nothing.
+      - name: Check the jar exists
+        run: test -f build/libs/droppopup-*.jar && ls -la build/libs/
+
+      - name: Publish
+        if: inputs.dry-run != true
+        uses: Kir-Antipov/mc-publish@v3.3.1
+        with:
+          modrinth-id: ${{ secrets.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          files: build/libs/droppopup-*.jar
+          name: Drop Popup ${{ github.ref_name }}
+          version: ${{ github.ref_name }}
+          version-type: release
+
+          # Read off fabric.mod.json, but stated here so a silent
+          # misdetection cannot publish against the wrong game version.
+          game-versions: '26.1.2'
+          loaders: fabric
+          java: 25
