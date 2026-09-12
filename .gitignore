@@ -27,3 +27,8 @@ Thumbs.db
 
 # Per-machine config, never committed
 local.properties
+
+# Credentials - never commit. Real token lives at ~/.modrinth-token
+.modrinth-token
+*.token
+*-token.txt
