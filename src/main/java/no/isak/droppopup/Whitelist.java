@@ -60,6 +60,15 @@ public final class Whitelist {
     private Whitelist() {
     }
 
+    /**
+     * Leser lista med en gang, sa <code>config/droppopup-whitelist.json</code>
+     * finnes rett etter oppstart. Uten dette ble fila forst skrevet den dagen
+     * du faktisk fikk et RARE-drop, fordi {@link #contains} er eneste vei inn.
+     */
+    public static void init() {
+        names();
+    }
+
     public static boolean contains(String itemName) {
         return names().contains(itemName.toLowerCase(Locale.ROOT).trim());
     }

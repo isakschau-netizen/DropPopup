@@ -79,6 +79,7 @@ public final class DropPopup implements ClientModInitializer {
             }
         });
 
+        Whitelist.init();
         NeuRepo.loadAsync();
 
         LOGGER.info("Drop Popup lastet");
