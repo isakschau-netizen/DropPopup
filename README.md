@@ -147,4 +147,4 @@ Particle counts and colours live in `Rarity.java`.
 
 ## License
 
-MIT - see [LICENSE](../LICENSE).
+MIT - see [LICENSE](LICENSE).
